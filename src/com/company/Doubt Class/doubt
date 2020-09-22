@@ -1,0 +1,259 @@
+ 
+ // leet code : https://leetcode.com/problems/sequential-digits/
+ public  List<Integer> sequentialDigits(int low, int high) {
+		String str = "123456789";
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		int lowlen = String.valueOf(low).length();// low len 
+		int highlen = String.valueOf(high).length();// high len
+		for (int i = lowlen; i <= highlen; i++) {
+			for (int si = 0; si <= 9 - i; si++) {
+				int end = si + i;
+				int t = Integer.parseInt(str.substring(si, end));
+                if (t>=low  && t <= high)
+					list.add(t);
+				
+			}
+		}
+		return list;
+
+	}
+  
+  sieve
+  
+  
+public class Prime_SIeve {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		sieve(25);
+
+	}
+
+	private static void sieve(int n) {
+		// TODO Auto-generated method stub
+		boolean[] prime = new boolean[n + 1]; // b+1;
+		// false denotes prime
+		prime[0] = prime[1] = true; // true denotes non prime
+		for (int i = 2; i * i <= n; i++) { 
+			if (!prime[i]) {
+				for (int mul = 2; mul * i <= 25; mul++) { // n/3
+					prime[mul * i] = true;
+
+				}
+			}
+
+		}
+		for (int i = 2; i < prime.length; i++) {
+			if (!prime[i]) {
+				System.out.print(i + " ");
+			}
+
+		}
+
+	}
+
+}
+
+
+
+import java.util.Scanner;
+
+public class Mapped_String {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		String str = sc.next();
+	//	MappedStrimg(str, "");
+		System.out.println(twins(str));
+
+	}
+
+	private static void MappedStrimg(String QUes, String ans) {
+		// TODO Auto-generated method stub
+		if (QUes.length() == 0) {
+			System.out.println(ans);
+			return;
+		}
+		String st = QUes.substring(0, 1);
+		int it = Integer.parseInt(st);
+		MappedStrimg(QUes.substring(1), ans + (char) (it + 65 - 1));
+		if (QUes.length() >= 2) {
+			String st1 = QUes.substring(0, 2);
+			int it1 = Integer.parseInt(st1);
+			if (it1 <= 26) {
+				MappedStrimg(QUes.substring(2), ans + (char) (it1 + 65 - 1));
+			}
+		}
+
+	}
+
+	public static int twins(String str) {
+		if (str.length() < 3) {
+			return 0;
+		}
+
+		if (str.charAt(0) == str.charAt(2)) {
+			return 1 + twins(str.substring(1));
+		}
+		return twins(str.substring(1));
+
+	}
+	
+
+}
+
+
+import java.util.Scanner;
+
+public class Rat_in_maze {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt(); // n
+		int M = sc.nextInt();// m
+		char[][] maze = new char[N][M];
+		for (int i = 0; i < maze.length; i++) {
+			String s = sc.next(); //
+			for (int j = 0; j < maze[i].length; j++) {
+				maze[i][j] = s.charAt(j);
+			}
+		}
+		if (!isvalied(maze, 0, 0, new int[N][M])) {
+			System.out.println(-1);
+		}
+
+	}
+
+	public static boolean isvalied(char[][] maze, int row, int col, int[][] vis) {
+		if (row == maze.length - 1 && col == maze[0].length-1) {
+			
+			vis[row][col] = 1;
+			for (int i = 0; i < vis.length; i++) {
+				for (int j = 0; j < vis[0].length; j++) {
+					System.out.print(vis[i][j] + " ");
+				}
+				System.out.println();
+			}
+
+			return true;
+		}
+		if (row >= maze.length || col >= maze[0].length || maze[row][col] == 'X' || vis[row][col] == 1) {
+			return false;
+		}
+		maze[row][col] = 'X';
+		vis[row][col] = 1;
+		boolean ca = isvalied(maze, row, col + 1, vis); // hor 
+		if (ca) {
+			return ca;
+		}
+		boolean ra = isvalied(maze, row + 1, col, vis);//ver 
+		if (ra) {
+			return ra;
+		}
+		maze[row][col] = 'O';
+		vis[row][col] = 0;
+		return false;
+	}
+
+}
+
+
+
+import java.util.Scanner;
+
+public class ChessBoard {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		System.out.println("\n" + ChessBoardprint(n, 0, 0, ""));
+
+	}
+
+	private static int ChessBoardprint(int n, int row, int col, String ans) {
+		// TODO Auto-generated method stub
+		// +ve base case
+		if (row == n - 1 && col == n - 1) {
+			System.out.print(ans + "{" + row + "-" + col + "}" + " "); // 2-2
+			return 1;
+		}
+		// -ve base case
+		if (row >= n || col >= n) {
+			return 0;
+		}
+		int c = 0;
+		// knight
+		c += ChessBoardprint(n, row + 2, col + 1, ans + "{" + row + "-" + col + "}" + "K");
+		c += ChessBoardprint(n, row + 1, col + 2, ans + "{" + row + "-" + col + "}" + "K");
+		// rook
+		if (row == 0 || row == n - 1 || col == 0 || col == n - 1) {
+			// horizontally
+			for (int i = 1; i < n; i++) {
+				c += ChessBoardprint(n, row, col + i, ans + "{" + row + "-" + col + "}" + "R");
+			}
+			// vertically
+			for (int i = 1; i < n; i++) {
+				c += ChessBoardprint(n, row + i, col, ans + "{" + row + "-" + col + "}" + "R");
+			}
+
+		}
+		// bishop
+		if (row == col || row + col == n - 1) {
+			for (int i = 1; i < n; i++) {
+				c += ChessBoardprint(n, row + i, col + i, ans + "{" + row + "-" + col + "}" + "B");
+			}
+		}
+		return c;
+	}
+
+}
+
+
+import java.util.Scanner;
+
+public class OptimalGame {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		TOH(n, "src", "dis", "hel");
+		System.out.println(Math.pow(2, n)-1);// count of toh
+//		int arr[] = new int[n];
+//		for (int i = 0; i < n; i++) {
+//			arr[i] = sc.nextInt();
+//		}
+//		System.out.println(OptimalGame1(arr, 0, arr.length - 1));
+		
+
+	}
+
+	private static int OptimalGame1(int[] arr, int i, int j) {
+		// TODO Auto-generated method stub
+		if (i > j) {
+			return 0;
+		}
+		if (i + 1 == j) {
+			return Math.max(arr[i], arr[j]);
+
+		}
+		int op1 = arr[i] + Math.min(OptimalGame1(arr, i + 2, j), OptimalGame1(arr, i + 1, j - 1));
+		int op2 = arr[j] + Math.min(OptimalGame1(arr, i + 1, j - 1), OptimalGame1(arr, i, j - 2));
+		return Math.max(op1, op2);
+
+	}
+
+	public static void TOH(int n, String src, String dis, String hel) {
+		if (n == 0) {
+			return;
+		}
+		TOH(n - 1, src, hel, dis);
+		System.out.println("Move " + n + "th " + "disk from " + src + " to " + dis);
+		TOH(n - 1, hel, dis, src);
+
+	}
+
+}
