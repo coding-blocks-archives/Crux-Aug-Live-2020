@@ -13,6 +13,7 @@ public class DiceCount {
             return;
         }
 
+
         for (int i = 1; i <=6 && i<=target ; i++) {
 
             dicepath(processed+i, target-i);
