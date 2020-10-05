@@ -1,10 +1,22 @@
 package com.company.Lec20;
 
+import com.company.Lec21.CallODuty;
+import com.company.Lec21.ShootingGames;
+
 public class StackClient {
 
     public static void main(String[] args) throws  Exception{
 
         Stack stack = new Stack();
+
+        ShootingGames games = new ShootingGames();
+
+
+//        StackClient stackClient = new StackClient();
+////        stackClient.
+//
+//        CallODuty cod = new CallODuty();
+//        cod.
 
         stack.push(1);
         stack.push(2);
