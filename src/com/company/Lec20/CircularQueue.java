@@ -2,9 +2,9 @@ package com.company.Lec20;
 
 public class CircularQueue {
 
-    private int[] data;
-    private int rear;
-    private int front;
+    protected int[] data;
+    protected int rear;
+    protected int front;
     private int size;
 
     public CircularQueue(){
@@ -16,7 +16,7 @@ public class CircularQueue {
 
     }
 
-    private boolean isFull(){
+    protected boolean isFull(){
         return size== data.length;
     }
 

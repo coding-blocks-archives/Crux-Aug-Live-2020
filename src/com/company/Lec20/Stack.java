@@ -2,9 +2,9 @@ package com.company.Lec20;
 
 public class Stack {
 
-    private int data[];
+    protected int data[];
 
-    private int top;
+    protected int top;
 
     public Stack() {
 
@@ -12,7 +12,7 @@ public class Stack {
         this.top = -1;
     }
 
-    private boolean isFull(){
+    protected boolean isFull(){
 
         return top == data.length-1;
     }
@@ -27,7 +27,7 @@ public class Stack {
     }
 
 
-    private boolean isEmpty(){
+    protected boolean isEmpty(){
 
         return top==-1;
     }
