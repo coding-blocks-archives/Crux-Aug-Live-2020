@@ -1,0 +1,276 @@
+
+import java.util.Stack;
+
+public class Dequeue_efficient_queue {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Stack<Integer> pri = new Stack<Integer>();
+		Stack<Integer> sec = new Stack<Integer>();
+		enqueue(pri, sec);
+		System.out.println(pri);
+		System.out.println(sec);
+		System.out.println(dequeue(pri));
+
+	}
+
+	// O(n)
+	public static void enqueue(Stack<Integer> pri, Stack<Integer> sec) {
+		for (int i = 1; i <= 10; i++) {
+			while (!pri.isEmpty()) {
+				sec.push(pri.pop());
+			}
+			pri.push(2 * i);
+			while (!sec.isEmpty()) {
+				pri.push(sec.pop());
+			}
+		}
+	}
+
+// O(1)
+	public static int dequeue(Stack<Integer> pri) {
+		return pri.pop();
+	}
+
+}
+
+
+
+import java.util.*;
+
+
+public class EnQUeueefficient {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Stack<Integer> pri = new Stack<Integer>();
+		Stack<Integer> sec = new Stack<Integer>();
+		enqueue(pri);
+		System.out.println(pri);
+		System.out.println(dequeue(pri, sec));
+		System.out.println(dequeue(pri, sec));
+		System.out.println(dequeue(pri, sec));
+		System.out.println(dequeue(pri, sec));
+
+	}
+
+// o(1)
+	public static void enqueue(Stack<Integer> pri) {
+		for (int i = 1; i <= 10; i++) {
+			pri.push(2 * i);
+
+		}
+	}
+
+// o(n)
+	public static int dequeue(Stack<Integer> pri, Stack<Integer> sec) {
+		while (pri.size() != 1) {
+			sec.push(pri.pop());
+		}
+		int rv = pri.pop();
+		while (!sec.isEmpty()) {
+			pri.push(sec.pop());
+		}
+		return rv;
+	}
+
+}
+
+
+
+import java.util.Stack;
+
+public class Stock_Span {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int arr[] = { 35, 35, 40, 38, 35 };
+		StockSpan(arr);
+
+	}
+
+	public static void StockSpan(int[] arr) {
+		Stack<Integer> stack = new Stack<Integer>();
+		for (int i = 0; i < arr.length; i++) {
+			while (!stack.isEmpty() && arr[i] >= arr[stack.peek()]) {
+				stack.pop();
+
+			}
+			if (stack.isEmpty()) {
+				System.out.print((i + 1)+" ");
+			}
+			else {
+				System.out.print(i - stack.peek() + " ");
+			}
+			stack.push(i);
+
+		}
+
+	}
+}
+
+
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Stack;
+
+public class PlayingWithCard {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+
+		int q = sc.nextInt();
+		ArrayList<Stack<Integer>> A = new ArrayList<Stack<Integer>>();
+		ArrayList<Stack<Integer>> B = new ArrayList<Stack<Integer>>();
+		for (int i = 0; i <= q; i++) {
+			A.add(new Stack<Integer>());
+
+		}
+		for (int i = 0; i <= q; i++) {
+			B.add(new Stack<Integer>());
+
+		}
+		for (int i = 0; i < n; i++) {
+			int it = sc.nextInt();
+			A.get(0).push(it);
+		}
+		for (int i = 1; i <= q; i++) {
+			Stack<Integer> ps = A.get(i - 1);
+			int it_prime = Nth_prime(i);
+			while (!ps.isEmpty()) {
+				int item = ps.pop();
+				if (item % it_prime == 0) {
+					B.get(i).push(item);
+				} else
+					A.get(i).push(item);
+
+			}
+
+		}
+		// B1 ... BQ
+		for (int i = 1; i <= q; i++) {
+			Stack<Integer> ps = B.get(i);
+			while (!ps.isEmpty()) {
+				int item = ps.pop();
+				System.out.println(item);
+			}
+
+		}
+		// AQ
+		Stack<Integer> ps = A.get(q);
+		while (!ps.isEmpty()) {
+			int item = ps.pop();
+			System.out.println(item);
+
+		}
+	}
+
+	public static int Nth_prime(int n) {
+		int counter = 0;
+		int i = 2;
+		while (true) {
+			if (isprime(i)) {
+				counter++;
+			}
+			if (counter == n) {
+				return i;
+			}
+			i++;
+		}
+
+	}
+
+	private static boolean isprime(int i) {
+		// TODO Auto-generated method stub
+		int div = 2;
+		while (div * div <= i) {
+			if (i % div == 0) {
+				return false;
+			}
+			div++;
+		}
+		return true;
+	}
+
+}
+
+
+
+import java.util.Scanner;
+
+public class Histogram {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		long[] arr = new long[n];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = sc.nextLong();
+		}
+		System.out.println(Histo_Max_Area(arr, 0, n - 1));
+
+	}
+
+	private static long Histo_Max_Area(long[] arr, int si, int ei) {
+		if(si>ei) {
+			return 0;
+		}
+		if(si==ei) {
+			return arr[si];
+		}
+		Long min = Long.MAX_VALUE;
+		int min_idx = -1;
+		for (int i = si; i <= ei; i++) {
+			if (arr[i] < min) {
+				min = arr[i];
+				min_idx = i;
+			}
+
+		}
+		long curr_area = (ei - si + 1) * min;
+		long left_area = Histo_Max_Area(arr, si, min_idx - 1);
+		long right_area = Histo_Max_Area(arr, min_idx + 1, ei);
+		return Math.max(left_area, Math.max(curr_area, right_area));
+
+	}
+
+}
+
+
+import java.util.Scanner;
+
+public class Split_Array {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int[] arr = new int[n];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = sc.nextInt();
+		}
+		answer(arr, 0, "", "",0,0);
+
+	}
+
+	public static void answer(int[] arr, int idx, String ans1, String ans2, int sum1, int sum2) {
+		if (idx == arr.length) {
+			if(sum1==sum2) {
+			System.out.println(ans1 + "and " + ans2);
+			}
+			return;
+		}
+		answer(arr, idx + 1, ans1 + arr[idx] + " ", ans2, sum1 + arr[idx], sum2);
+		answer(arr, idx + 1, ans1, ans2 + arr[idx] + " ", sum1, sum2 + arr[idx]);
+		
+
+	}
+	
+
+
+}
