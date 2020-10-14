@@ -1,4 +1,4 @@
-package com.company.Lec22;
+package com.company.Lec22Lec23;
 
 public class Client {
 

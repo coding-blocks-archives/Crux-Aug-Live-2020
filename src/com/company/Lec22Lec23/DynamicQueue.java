@@ -1,4 +1,4 @@
-package com.company.Lec22;
+package com.company.Lec22Lec23;
 
 import com.company.Lec20.CircularQueue;
 

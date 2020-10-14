@@ -1,4 +1,4 @@
-package com.company.Lec22;
+package com.company.Lec22Lec23;
 
 public class LinkedList {
 
@@ -43,7 +43,7 @@ public class LinkedList {
             System.out.print(temp.value + " ->");
             temp=temp.next;
         }
-        System.out.print("end");
+        System.out.println("end");
     }
 
     public int deletefirst(){
@@ -168,6 +168,98 @@ public class LinkedList {
         node.next =null;
 
         tail = node;
+    }
+
+    public int kthfromlast(int k){
+
+        Node slow = head;
+        Node fast = head;
+
+        for (int i = 0; i <k ; i++) {
+
+            fast= fast.next;
+        }
+
+        while(fast!=null){
+            slow=slow.next;
+            fast=fast.next;
+        }
+
+        return slow.value;
+    }
+
+    public Node mid(){
+
+        Node slow =head;
+        Node fast = head;
+
+        while(fast.next!=null && fast.next.next!=null){
+            slow=slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    public LinkedList merger(LinkedList first, LinkedList second){
+
+
+        Node f = first.head;
+        Node s = second.head;
+
+        LinkedList l3 = new LinkedList();
+
+        while(f!=null && s!=null){
+
+            if(f.value <s.value){
+                l3.insertlast(f.value);
+                f=f.next;
+            }
+
+            else{
+                l3.insertlast(s.value);
+                s=s.next;
+            }
+        }
+
+        while(f!=null){
+            l3.insertlast(f.value);
+            f=f.next;
+        }
+
+        while(s!=null){
+            l3.insertlast(s.value);
+            s=s.next;
+        }
+
+        return l3;
+    }
+
+    public LinkedList merge(LinkedList list){
+
+        if(list.size == 1){
+            return list;
+        }
+
+        LinkedList first = new LinkedList();
+        LinkedList second = new LinkedList();
+
+        Node mid = mid();
+
+        first.head = list.head;
+        first.tail = mid;
+        first.size = (list.size+1)/2;
+
+        second.head = mid.next;
+        second.tail = list.tail;
+        second.size = list.size/2;
+
+        mid.next=null;
+
+        first =merge(first);
+        second =merge(second);
+
+        return merger(first,second);
     }
 
     private class Node{
