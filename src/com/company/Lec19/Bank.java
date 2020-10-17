@@ -2,7 +2,7 @@ package com.company.Lec19;
 
 public class Bank {
 
-   public  int bankbalance;
+   protected  int bankbalance;
 
     public int getBankbalance() {
         return bankbalance;
