@@ -2,8 +2,7 @@ package com.company.Lec25_Lec26;
 
 import java.util.Arrays;
 
-public class BST {
-
+public class BST{
     private Node root;
 
     public void insert(int value){
