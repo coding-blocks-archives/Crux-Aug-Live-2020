@@ -57,6 +57,8 @@ public class AdjacencymapGraph<T> {
 
    public AdjacencymapGraph<T> kruskal(){
 
+    /*fix*/   setParent(); // Didn't called it, athough it wouldn't cause problem
+
        AdjacencymapGraph<T> graph = new AdjacencymapGraph<>();
 
        ArrayList<Edge> edges = new ArrayList<>();
