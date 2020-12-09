@@ -1,5 +1,7 @@
 package com.company.Lec31;
 
+import com.company.Lec28.Heaps;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -121,6 +123,91 @@ public class AdjacencymapGraph<T> {
 
            parent.put(vertex,null);
        }
+   }
+
+   class PrimsPair implements Comparable<PrimsPair>{
+
+       T vertex;
+
+       T acqvertex;
+
+       int cost;
+
+//
+//       public PrimsPair(T vertex, T acqvertex, int cost) {
+//           this.vertex = vertex;
+//           this.acqvertex = acqvertex;
+//           this.cost = cost;
+//       }
+
+
+       @Override
+       public int compareTo(PrimsPair o) {
+           return this.cost - o.cost;
+       }
+   }
+
+   public AdjacencymapGraph<T> prims(){
+
+       AdjacencymapGraph<T> graph = new AdjacencymapGraph<>();
+       Heaps<PrimsPair> heaps = new Heaps<>();
+
+       HashMap<T, PrimsPair> map = new HashMap<>();
+
+
+       // updating our heap  with all pairs
+       for (T key:vertexMap.keySet()) {
+
+           PrimsPair np = new PrimsPair();
+
+           np.vertex = key;
+           np.acqvertex= null;
+           np.cost = Integer.MAX_VALUE;
+
+           heaps.insert(np);
+           map.put(key, np);
+       }
+
+      // started removing from our heap
+       while(!heaps.isEmpty()){
+
+
+           PrimsPair rp = heaps.delete();
+           map.remove(rp.vertex);
+
+           if(rp.acqvertex ==null){
+
+               graph.addVertex(rp.vertex);
+           }
+
+           else{
+               graph.addVertex(rp.vertex);
+               graph.addEdgeWeight(rp.vertex, rp.acqvertex, rp.cost);
+           }
+
+           // for checking the cost between all the neighbours
+
+           for (Vertex padosi: vertexMap.get(rp.vertex).neighbours.keySet()) {
+
+               if(map.containsKey(padosi.value)){
+
+                   int old = map.get(padosi.value).cost;
+                   int newcost = vertexMap.get(rp.vertex).neighbours.get(padosi);
+
+                   if(old>newcost){
+
+                       PrimsPair gp = map.get(padosi.value);
+
+                       gp.acqvertex = rp.vertex;
+                       gp.cost =newcost;
+                       heaps.update(gp);
+                   }
+
+               }
+           }
+       }
+
+       return graph;
    }
 
    class Edge implements Comparable<Edge> {

@@ -17,8 +17,9 @@ public class GraphClient {
         graph.addEdgeWeight("A","B",3);
         graph.addEdgeWeight("A","D",2);
 
-        AdjacencymapGraph<String> ans = graph.kruskal();
-
+        AdjacencymapGraph<String> ans = graph.prims();
         ans.display();
+
+
     }
 }
